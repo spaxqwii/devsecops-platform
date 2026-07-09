@@ -2,7 +2,7 @@
 
 # WAFv2 Web ACL (rate limiting, SQL injection protection)
 resource "aws_wafv2_web_acl" "this" {
-  
+
 
   name        = "${var.name_prefix}-waf"
   description = "WAF rules for ${var.name_prefix}"
@@ -108,7 +108,7 @@ resource "aws_guardduty_detector" "this" {
     }
     kubernetes {
       audit_logs {
-        enable = false  # Not using EKS
+        enable = false # Not using EKS
       }
     }
   }
@@ -143,7 +143,7 @@ resource "aws_config_configuration_recorder" "this" {
   role_arn = aws_iam_role.config[0].arn
 
   recording_group {
-    all_supported                 = true
+    all_supported = true
   }
 }
 

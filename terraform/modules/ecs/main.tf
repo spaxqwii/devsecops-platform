@@ -54,7 +54,7 @@ resource "aws_lb" "this" {
   security_groups    = [aws_security_group.alb.id]
   subnets            = var.public_subnets
 
-  enable_deletion_protection = false  # For learning environment
+  enable_deletion_protection = false # For learning environment
   enable_http2               = true
 
   access_logs {
@@ -97,7 +97,7 @@ resource "aws_s3_bucket_policy" "logs" {
     Statement = [{
       Effect = "Allow"
       Principal = {
-        AWS = "arn:aws:iam::127311923021:root"  # us-east-1 ELB account
+        AWS = "arn:aws:iam::127311923021:root" # us-east-1 ELB account
       }
       Action   = "s3:PutObject"
       Resource = "${aws_s3_bucket.logs.arn}/alb-logs/*"
@@ -218,8 +218,8 @@ resource "aws_ecs_task_definition" "this" {
 
   container_definitions = jsonencode([
     {
-      name  = "app"
-      image = var.container_image
+      name      = "app"
+      image     = var.container_image
       essential = true
       portMappings = [{
         containerPort = var.container_port
@@ -256,9 +256,9 @@ resource "aws_ecs_task_definition" "this" {
       }
       # Security hardening
       readonlyRootFilesystem = true
-      user = "1000:1000"
-      mountPoints = []
-      volumesFrom = []
+      user                   = "1000:1000"
+      mountPoints            = []
+      volumesFrom            = []
     }
   ])
 
@@ -285,7 +285,7 @@ resource "aws_ecs_service" "this" {
   network_configuration {
     subnets          = var.private_subnets
     security_groups  = [aws_security_group.ecs.id]
-    assign_public_ip = false  # Use NAT Gateway or VPC Endpoints
+    assign_public_ip = false # Use NAT Gateway or VPC Endpoints
   }
 
   load_balancer {
@@ -301,7 +301,7 @@ resource "aws_ecs_service" "this" {
   deployment_circuit_breaker {
     enable   = true
     rollback = true
-}
+  }
 
   propagate_tags = "SERVICE"
 
@@ -310,7 +310,7 @@ resource "aws_ecs_service" "this" {
   depends_on = [aws_lb_listener.http]
 
   lifecycle {
-    ignore_changes = [desired_count]  # Allow auto-scaling
+    ignore_changes = [desired_count] # Allow auto-scaling
   }
 }
 
