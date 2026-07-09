@@ -1,0 +1,28 @@
+devsecops-platform/
+├── README.md                          # Full documentation
+├── .github/workflows/ci-cd.yml        # CI/CD: SAST → Build → Scan → Deploy
+├── terraform/
+│   ├── environments/dev/              # Your free tier environment
+│   │   ├── main.tf                    # Orchestrates all modules
+│   │   ├── variables.tf               # All configurable inputs
+│   │   └── terraform.tfvars.example   # Copy and customize
+│   ├── modules/
+│   │   ├── vpc/                       # Network with flow logs, VPC endpoints
+│   │   ├── ecs/                       # Fargate cluster, ALB, task definitions
+│   │   ├── security/                  # WAF, GuardDuty, Security Hub, Config
+│   │   └── observability/             # CloudWatch dashboard, alarms, X-Ray
+│   └── policies/
+│       ├── security.rego              # OPA: encryption, no root, no wildcards
+│       └── cost.rego                # OPA: instance sizes, lifecycle policies
+├── app/                               # Node.js microservice
+│   ├── Dockerfile                     # Multi-stage, non-root, distroless-ready
+│   ├── server.js                      # Express with X-Ray, structured logging
+│   └── package.json
+├── scripts/
+│   ├── setup.sh                       # One-command deploy
+│   ├── destroy.sh                     # Complete teardown (save credits!)
+│   └── cost-check.sh                  # Quick AWS cost audit
+└── docs/
+    ├── adr/                           # Architecture Decision Records
+    ├── runbooks/                      # Incident response templates
+    └── lessons-learned/               # Your notes as you learn

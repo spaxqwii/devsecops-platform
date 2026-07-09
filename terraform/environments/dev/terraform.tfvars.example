@@ -1,0 +1,30 @@
+# Copy this to terraform.tfvars and fill in your values
+
+aws_region     = "us-east-1"
+environment    = "dev"
+project_name   = "devsecops"
+owner_email    = "your-email@example.com"
+aws_account_id = "123456789012"
+github_org     = "your-github-username"
+github_repo    = "devsecops-platform"
+
+# FREE TIER OPTIMIZATION
+# Set to false to save ~$30/month on NAT Gateway
+# When false, ECS tasks run in public subnets (acceptable for learning)
+enable_nat_gateway   = false
+single_nat_gateway   = true
+
+# Keep costs minimal
+desired_count        = 1
+cpu                  = 256
+memory               = 512
+log_retention_days   = 1
+
+# Security services (first 30 days free, then ~$0.10/GB for GuardDuty)
+enable_guardduty   = true
+enable_securityhub = true
+enable_config      = false
+
+# Container settings
+container_image = "public.ecr.aws/nginx/nginx:alpine"
+container_port  = 3000

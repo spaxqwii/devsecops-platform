@@ -1,0 +1,17 @@
+# Lessons Learned
+
+Document your learnings here as you work through the project.
+
+Template:
+```markdown
+## Date: YYYY-MM-DD
+### What I Learned
+...
+### What Went Wrong
+...
+### How I Fixed It
+...
+### Resources
+- Link to docs
+- Link to PR
+```
