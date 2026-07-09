@@ -3,9 +3,9 @@
 aws_region     = "us-east-1"
 environment    = "dev"
 project_name   = "devsecops"
-owner_email    = "your-email@example.com"
-aws_account_id = "123456789012"
-github_org     = "your-github-username"
+owner_email    = "allanlearning13@gmail.com"
+aws_account_id = "353925322836"
+github_org     = "spaxqwii"
 github_repo    = "devsecops-platform"
 
 # FREE TIER OPTIMIZATION
@@ -21,8 +21,8 @@ memory               = 512
 log_retention_days   = 1
 
 # Security services (first 30 days free, then ~$0.10/GB for GuardDuty)
-enable_guardduty   = true
-enable_securityhub = true
+enable_guardduty   = false
+enable_securityhub = false
 enable_config      = false
 
 # Container settings

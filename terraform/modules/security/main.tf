@@ -2,7 +2,7 @@
 
 # WAFv2 Web ACL (rate limiting, SQL injection protection)
 resource "aws_wafv2_web_acl" "this" {
-  count = var.alb_arn != "" ? 1 : 0
+  
 
   name        = "${var.name_prefix}-waf"
   description = "WAF rules for ${var.name_prefix}"
@@ -91,10 +91,9 @@ resource "aws_wafv2_web_acl" "this" {
 }
 
 resource "aws_wafv2_web_acl_association" "this" {
-  count = var.alb_arn != "" ? 1 : 0
 
   resource_arn = var.alb_arn
-  web_acl_arn  = aws_wafv2_web_acl.this[0].arn
+  web_acl_arn  = aws_wafv2_web_acl.this.arn
 }
 
 # GuardDuty (Threat Detection)
@@ -110,11 +109,6 @@ resource "aws_guardduty_detector" "this" {
     kubernetes {
       audit_logs {
         enable = false  # Not using EKS
-      }
-    }
-    malware_protection {
-      scan_ec2_instance_with_findings {
-        enable = true
       }
     }
   }
@@ -150,7 +144,6 @@ resource "aws_config_configuration_recorder" "this" {
 
   recording_group {
     all_supported                 = true
-    record_global_resource_types = true
   }
 }
 

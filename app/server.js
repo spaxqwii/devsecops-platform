@@ -1,5 +1,4 @@
 const express = require('express');
-const AWSXRay = require('aws-xray-sdk-core');
 const winston = require('winston');
 
 // Structured logging
@@ -14,9 +13,6 @@ const logger = winston.createLogger({
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-// X-Ray tracing middleware
-app.use(AWSXRay.express.openSegment('devsecops-app'));
 
 // Request logging middleware
 app.use((req, res, next) => {
@@ -71,9 +67,6 @@ app.get('/api/error', (req, res) => {
   logger.error('Simulated error endpoint called');
   res.status(500).json({ error: 'Simulated server error' });
 });
-
-// X-Ray close segment
-app.use(AWSXRay.express.closeSegment());
 
 // Global error handler
 app.use((err, req, res, next) => {

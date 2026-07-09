@@ -7,14 +7,6 @@ terraform {
       version = "~> 5.0"
     }
   }
-
-  backend "s3" {
-    bucket         = "devsecops-tfstate-${var.aws_account_id}"
-    key            = "dev/terraform.tfstate"
-    region         = "us-east-1"
-    encrypt        = true
-    dynamodb_table = "devsecops-tflock"
-  }
 }
 
 provider "aws" {
@@ -282,27 +274,3 @@ resource "aws_iam_role_policy" "github_actions_ecs" {
 }
 
 # ==================== OUTPUTS ====================
-output "app_url" {
-  description = "URL of the deployed application"
-  value       = "http://${module.ecs.alb_dns_name}"
-}
-
-output "ecr_repository_url" {
-  description = "ECR repository URL for CI/CD"
-  value       = aws_ecr_repository.app.repository_url
-}
-
-output "github_actions_role_arn" {
-  description = "ARN for GitHub Actions OIDC role"
-  value       = aws_iam_role.github_actions.arn
-}
-
-output "cloudwatch_dashboard" {
-  description = "CloudWatch Dashboard name"
-  value       = module.observability.dashboard_name
-}
-
-output "security_hub_status" {
-  description = "Security Hub enabled status"
-  value       = var.enable_securityhub ? "Enabled" : "Disabled"
-}

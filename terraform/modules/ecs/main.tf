@@ -80,6 +80,10 @@ resource "aws_s3_bucket_lifecycle_configuration" "logs" {
     id     = "expire-logs"
     status = "Enabled"
 
+    filter {
+      prefix = ""
+    }
+
     expiration {
       days = 1
     }
@@ -294,10 +298,10 @@ resource "aws_ecs_service" "this" {
     type = "ECS"
   }
 
-  deployment_configuration {
-    maximum_percent         = 200
-    minimum_healthy_percent = 100
-  }
+  deployment_circuit_breaker {
+    enable   = true
+    rollback = true
+}
 
   propagate_tags = "SERVICE"
 

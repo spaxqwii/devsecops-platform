@@ -103,7 +103,6 @@ resource "aws_cloudwatch_dashboard" "this" {
     ]
   })
 
-  tags = var.tags
 }
 
 # CloudWatch Alarms
