@@ -70,16 +70,16 @@ module "security" {
 module "ecs" {
   source = "../../modules/ecs"
 
-  name_prefix = "${var.project_name}-${var.environment}"
-  vpc_id      = module.vpc.vpc_id
+  name_prefix     = "${var.project_name}-${var.environment}"
+  vpc_id          = module.vpc.vpc_id
   private_subnets = module.vpc.private_subnets
   public_subnets  = module.vpc.public_subnets
 
-  container_image   = var.container_image
-  container_port    = var.container_port
-  desired_count     = var.desired_count
-  cpu               = var.cpu
-  memory            = var.memory
+  container_image = var.container_image
+  container_port  = var.container_port
+  desired_count   = var.desired_count
+  cpu             = var.cpu
+  memory          = var.memory
 
   enable_execute_command = var.enable_execute_command
 
@@ -98,7 +98,7 @@ module "observability" {
   ecs_service_name = module.ecs.service_name
   alb_arn_suffix   = module.ecs.alb_arn_suffix
 
-  enable_xray       = var.enable_xray
+  enable_xray        = var.enable_xray
   log_retention_days = var.log_retention_days
 
   tags = var.common_tags
@@ -108,7 +108,7 @@ module "observability" {
 resource "aws_secretsmanager_secret" "app" {
   name                    = "${var.project_name}-${var.environment}-app-secrets"
   description             = "Application secrets for ${var.environment}"
-  recovery_window_in_days = 0  # Force delete for learning (use 7-30 in prod)
+  recovery_window_in_days = 0 # Force delete for learning (use 7-30 in prod)
 
   kms_key_id = aws_kms_key.app.arn
 
@@ -150,7 +150,7 @@ resource "aws_kms_alias" "app" {
 resource "aws_ecr_repository" "app" {
   name                 = "${var.project_name}-${var.environment}"
   image_tag_mutability = "IMMUTABLE"
-  force_delete         = true  # For learning environment
+  force_delete         = true # For learning environment
 
   image_scanning_configuration {
     scan_on_push = true
@@ -191,8 +191,8 @@ resource "aws_iam_openid_connect_provider" "github" {
   client_id_list = ["sts.amazonaws.com"]
 
   thumbprint_list = [
-    "6938fd4e98bab03faadb97b34396831e3780aea1",  # GitHub's thumbprint
-    "1c58a3a8518e8759bf075b76b750d4f2df264fcd"   # Backup
+    "6938fd4e98bab03faadb97b34396831e3780aea1", # GitHub's thumbprint
+    "1c58a3a8518e8759bf075b76b750d4f2df264fcd"  # Backup
   ]
 
   tags = var.common_tags

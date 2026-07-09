@@ -79,7 +79,7 @@ variable "single_nat_gateway" {
 variable "container_image" {
   description = "Container image URI"
   type        = string
-  default     = "public.ecr.aws/nginx/nginx:alpine"  # Placeholder
+  default     = "public.ecr.aws/nginx/nginx:alpine" # Placeholder
 }
 
 variable "container_port" {
@@ -91,7 +91,7 @@ variable "container_port" {
 variable "desired_count" {
   description = "Desired number of tasks"
   type        = number
-  default     = 1  # Free tier: keep at 1
+  default     = 1 # Free tier: keep at 1
 }
 
 variable "cpu" {
@@ -128,7 +128,7 @@ variable "enable_securityhub" {
 variable "enable_config" {
   description = "Enable AWS Config (free tier: first 1,000 evaluations)"
   type        = bool
-  default     = false  # Can get expensive; enable with caution
+  default     = false # Can get expensive; enable with caution
 }
 
 # ==================== OBSERVABILITY ====================
@@ -141,7 +141,7 @@ variable "enable_xray" {
 variable "log_retention_days" {
   description = "CloudWatch log retention"
   type        = number
-  default     = 1  # Free tier: keep low, delete often
+  default     = 1 # Free tier: keep low, delete often
 }
 
 # ==================== TAGS ====================
