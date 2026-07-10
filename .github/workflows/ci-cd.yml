@@ -15,6 +15,9 @@ env:
 permissions:
   id-token: write
   contents: read
+  security-events: write
+  id-token: write
+  contents: read
 
 jobs:
   sast:
