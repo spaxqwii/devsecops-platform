@@ -96,45 +96,6 @@ resource "aws_wafv2_web_acl_association" "this" {
   web_acl_arn  = aws_wafv2_web_acl.this.arn
 }
 
-# GuardDuty (Threat Detection)
-resource "aws_guardduty_detector" "this" {
-  count = var.enable_guardduty ? 1 : 0
-
-  enable = true
-
-  datasources {
-    s3_logs {
-      enable = true
-    }
-    kubernetes {
-      audit_logs {
-        enable = false # Not using EKS
-      }
-    }
-  }
-
-  tags = var.tags
-}
-
-# Security Hub (Centralized security findings)
-resource "aws_securityhub_account" "this" {
-  count = var.enable_securityhub ? 1 : 0
-}
-
-resource "aws_securityhub_standards_subscription" "cis" {
-  count = var.enable_securityhub ? 1 : 0
-
-  standards_arn = "arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0"
-  depends_on    = [aws_securityhub_account.this]
-}
-
-resource "aws_securityhub_standards_subscription" "foundational" {
-  count = var.enable_securityhub ? 1 : 0
-
-  standards_arn = "arn:aws:securityhub:${data.aws_region.current.name}::standards/aws-foundational-security-best-practices/v/1.0.0"
-  depends_on    = [aws_securityhub_account.this]
-}
-
 # AWS Config (Compliance monitoring)
 resource "aws_config_configuration_recorder" "this" {
   count = var.enable_config ? 1 : 0
