@@ -125,7 +125,7 @@ jobs:
       - name: Download task definition
         run: |
           aws ecs describe-task-definition \
-            --task-definition ${{ env.ECS_CLUSTER }} \
+            --task-definition devsecops-dev-app \
             --query taskDefinition > task-definition.json
       - name: Fill in image ID
         id: task-def
