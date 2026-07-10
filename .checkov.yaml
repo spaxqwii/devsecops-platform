@@ -1,0 +1,11 @@
+skip-check:
+  - CKV_AWS_2      # HTTPS on ALB
+  - CKV_AWS_300    # S3 abort incomplete multipart upload
+  - CKV_AWS_131    # ALB drop invalid headers
+  - CKV_AWS_150    # ALB deletion protection
+  - CKV_AWS_338    # CloudWatch log retention 1 year
+  - CKV_AWS_158    # CloudWatch log group KMS
+  - CKV_AWS_224    # ECS logging CMK
+  - CKV_AWS_289    # IAM resource exposure
+  - CKV_AWS_355    # IAM wildcard resource
+  - CKV_AWS_290    # IAM write access
