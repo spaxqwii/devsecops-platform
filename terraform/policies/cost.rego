@@ -1,7 +1,6 @@
 # OPA Policy: Cost Optimization
-package main
 
-#import future.keywords.if
+package main
 
 # Warn: Large EC2 instances
 warn[msg] if {
