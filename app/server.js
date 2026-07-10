@@ -78,6 +78,9 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Internal server error' });
 });
 
+// Add something like:
+app.get('/api/hello', (req, res) => res.json({message: 'Hello from CI/CD!'}))
+
 app.listen(PORT, '0.0.0.0', () => {
   logger.info(`Server running on port ${PORT}`);
 });
