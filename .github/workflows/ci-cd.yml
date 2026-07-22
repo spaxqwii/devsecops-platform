@@ -158,6 +158,15 @@ jobs:
           cluster: ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: false
       
+      - name: Get ALB URL
+        id: alb
+        run: |
+          APP_URL=$(aws elbv2 describe-load-balancers \
+            --names devsecops-dev-alb \
+            --query 'LoadBalancers[0].DNSName' \
+            --output text)
+          echo "app_url=http://$APP_URL" >> $GITHUB_OUTPUT
+
       - name: Wait for service to start
         run: sleep 60
       
