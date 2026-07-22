@@ -172,7 +172,7 @@ jobs:
       
       - name: Smoke test
         run: |
-          APP_URL="http://devsecops-dev-alb-973793282.us-east-1.elb.amazonaws.com"
+          APP_URL="${{ steps.alb.outputs.app_url }}"
           echo "Testing $APP_URL/health"
           curl -sf --retry 5 --retry-delay 10 "$APP_URL/health" || {
             echo "Smoke test failed!"
