@@ -110,8 +110,6 @@ resource "aws_secretsmanager_secret" "app" {
   description             = "Application secrets for ${var.environment}"
   recovery_window_in_days = 0 # Force delete for learning (use 7-30 in prod)
 
-  kms_key_id = aws_kms_key.app.arn
-
   tags = var.common_tags
 }
 
@@ -133,23 +131,10 @@ resource "aws_secretsmanager_secret_version" "app" {
 #   }
 # }
 
-resource "aws_kms_key" "app" {
-  description             = "KMS key for ${var.project_name} secrets"
-  deletion_window_in_days = 7
-  enable_key_rotation     = true
-
-  tags = var.common_tags
-}
-
-resource "aws_kms_alias" "app" {
-  name          = "alias/${var.project_name}-${var.environment}"
-  target_key_id = aws_kms_key.app.key_id
-}
-
 # ==================== ECR REPOSITORY ====================
 resource "aws_ecr_repository" "app" {
   name                 = "${var.project_name}-${var.environment}"
-  image_tag_mutability = "IMMUTABLE"
+  image_tag_mutability = "MUTABLE"
   force_delete         = true # For learning environment
 
   image_scanning_configuration {
@@ -157,9 +142,8 @@ resource "aws_ecr_repository" "app" {
   }
 
   encryption_configuration {
-    encryption_type = "KMS"
-    kms_key         = aws_kms_key.app.arn
-  }
+    encryption_type = "AES256"
+    }
 
   tags = var.common_tags
 }

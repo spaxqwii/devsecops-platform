@@ -1,0 +1,70 @@
+{
+  "containerDefinitions": [
+    {
+      "name": "app",
+      "image": "353925322836.dkr.ecr.us-east-1.amazonaws.com/devsecops-dev:latest",
+      "cpu": 0,
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "hostPort": 3000,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true,
+      "environment": [
+        {
+          "name": "PORT",
+          "value": "3000"
+        },
+        {
+          "name": "NODE_ENV",
+          "value": "production"
+        }
+      ],
+      "mountPoints": [],
+      "volumesFrom": [],
+      "secrets": [
+        {
+          "name": "DATABASE_URL",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:353925322836:secret:devsecops-dev-app-secrets-sIwxse:database_url::"
+        },
+        {
+          "name": "API_KEY",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:353925322836:secret:devsecops-dev-app-secrets-sIwxse:api_key::"
+        }
+      ],
+      "user": "1000:1000",
+      "readonlyRootFilesystem": true,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/devsecops-dev-app",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "healthCheck": {
+        "command": [
+          "CMD-SHELL",
+          "curl -f http://localhost:3000/health || exit 1"
+        ],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 60
+      },
+      "systemControls": []
+    }
+  ],
+  "family": "devsecops-dev-app",
+  "taskRoleArn": "arn:aws:iam::353925322836:role/devsecops-dev-ecs-task",
+  "executionRoleArn": "arn:aws:iam::353925322836:role/devsecops-dev-ecs-execution",
+  "networkMode": "awsvpc",
+  "volumes": [],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "cpu": "256",
+  "memory": "1024"
+}
