@@ -143,7 +143,7 @@ resource "aws_ecr_repository" "app" {
 
   encryption_configuration {
     encryption_type = "AES256"
-    }
+  }
 
   tags = var.common_tags
 }
